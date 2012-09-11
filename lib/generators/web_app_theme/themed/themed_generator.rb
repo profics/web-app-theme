@@ -1,4 +1,5 @@
 require 'rails/generators/generated_attribute'
+require 'qualified_const_get'
 
 module WebAppTheme
   class ThemedGenerator < Rails::Generators::Base
