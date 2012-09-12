@@ -64,7 +64,7 @@ module WebAppTheme
     end
     
     def resource_name
-      @model_name.underscore
+      @model_name.underscore.gsub('/', '_')
     end
     
     def plural_resource_name
