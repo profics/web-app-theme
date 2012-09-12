@@ -10,7 +10,7 @@ module WebAppTheme
     
     class_option :layout,         :type => :string,   :desc => 'Specify the layout name'
     class_option :engine,         :type => :string,   :default => 'erb', :desc => 'Specify the template engine'
-    class_option :will_paginate,  :type => :boolean,  :default => false, :desc => 'Specify if you use will_paginate'
+    class_option :paginate,  :type => :boolean,  :default => false, :desc => 'Specify if you use paginate'
     class_option :themed_type,    :type => :string,   :default => 'crud', :desc => 'Specify the themed type, crud or text. Default is crud'
     
     def initialize(args, *options)
