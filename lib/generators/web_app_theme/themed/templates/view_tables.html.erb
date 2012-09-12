@@ -13,7 +13,7 @@
           <th class="first">ID</th>
           <% unless columns.empty? -%>
           <th>
-            <%%= t("activerecord.attributes.<%= singular_controller_routing_path %>.<%= columns.first.name %>", :default => t("activerecord.labels.<%= columns.first.name %>", :default => "<%= columns.first.name.capitalize %>")) %>
+            <%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= columns.first.name %>", :default => t("activerecord.labels.<%= columns.first.name %>", :default => "<%= columns.first.name.capitalize %>")) %>
           </th>
           <% end -%>
           <th><%%= t("web-app-theme.created_at", :default => "Created at")  %></th>
