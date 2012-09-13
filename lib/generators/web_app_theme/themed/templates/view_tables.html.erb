@@ -11,9 +11,9 @@
       <table class="table">
         <tr>
           <th class="first">ID</th>
-          <% unless attributes.empty? -%>
+          <% unless columns.empty? -%>
           <th>
-            <%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= attributes.first.name %>", :default => t("activerecord.labels.<%= attributes.first.name %>", :default => "<%= attributes.first.name.capitalize %>")) %>
+            <%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= columns.first.name %>", :default => t("activerecord.labels.<%= columns.first.name %>", :default => "<%= columns.first.name.capitalize %>")) %>
           </th>
           <% end -%>
           <th><%%= t("web-app-theme.created_at", :default => "Created at")  %></th>
@@ -24,9 +24,9 @@
           <td>
             <%%= <%= resource_name %>.id %>
           </td>
-          <% unless attributes.empty? -%>
+          <% unless columns.empty? -%>
           <td>
-            <%%= link_to <%= resource_name %>.<%= attributes.first.name %>, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
+            <%%= link_to <%= resource_name %>.<%= columns.first.name %>, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
           </td>
           <% end -%>
           <td>

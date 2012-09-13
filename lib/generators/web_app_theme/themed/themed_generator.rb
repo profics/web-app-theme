@@ -2,7 +2,7 @@ require 'rails/generators/generated_attribute'
 require 'qualified_const_get'
 
 module WebAppTheme
-  class ThemedGenerator < Rails::Generators::NamedBase
+  class ThemedGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
         
     argument :controller_path,  :type => :string
