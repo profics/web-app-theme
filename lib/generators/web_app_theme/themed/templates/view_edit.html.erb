@@ -9,9 +9,15 @@
   <div class="content">
     <h2 class="title"><%%= t("web-app-theme.edit", :default => "Edit") %> <%= model_name %></h2>
     <div class="inner">
+    <% if options.simple_form %>
+      <%%= simple_form_for (@<%= resource_name %>) do |f| -%>
+        <%%= render :partial => "form", :locals => {:f => f} %>
+      <%% end -%>
+    <% else %>
       <%%= form_for @<%= resource_name  %>, :url => <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :html => { :class => :form } do |f| -%>
         <%%= render :partial => "form", :locals => {:f => f} %>
       <%% end -%>
+    <% end %>
     </div>
   </div>
 </div>
