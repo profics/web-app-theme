@@ -1,7 +1,11 @@
 <% columns.each do |column| %>
   <div class="group">
     <%%= f.label :<%= column.name %>, t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => "<%= column.name.humanize %>"), :class => :label %>
+    <% if options.simple_form %>
+    <%%= f.<%= column.reference? ? :association : column.field_type %> :<%= column.name %>, :class => '<%= column.field_type %>' %>
+    <% else %>
     <%%= f.<%= column.field_type %> :<%= column.name %>, :class => '<%= column.field_type %>' %>
+    <% end %>
     <span class="description">Ex: a simple text</span>
   </div>
 <%- end -%>
