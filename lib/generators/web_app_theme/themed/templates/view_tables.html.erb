@@ -28,7 +28,7 @@
             columns.each do |column|
               column_name = column.name.sub(/_id$/, '')
               reflection = current_model.reflect_on_association(column_name.to_sym)
-              if reflection
+              if reflection && !reflection.options[:polymorphic]
                 reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
           -%>
                 <td>
