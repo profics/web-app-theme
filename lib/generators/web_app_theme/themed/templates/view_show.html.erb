@@ -8,10 +8,30 @@
   </div>
   <div class="content">
     <div class="inner">
-      <% columns.each do |column| %>
+      <%-
+        current_model = model_name.constantize
+        columns.each do |column|
+      -%>
         <p>
-          <b><%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => t("activerecord.labels.<%= column.name %>", :default => "<%= column.name.humanize %>")) %>:</b>
-          <%%= @<%= resource_name %>.<%= column.name %> %>
+          <b><%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => t("activerecord.labels.<%= column.name %>", :default => "<%= column.name.humanize %>")).sub(/_id$/, '') %>:</b>
+        <%-
+          column_name = column.name.sub(/_id$/, '')
+          reflection = current_model.reflect_on_association(column_name.to_sym)
+          if reflection
+          reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
+        -%>
+            <td>
+              <%%= link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>) %>
+            </td>
+        <%-
+          else
+        -%>
+            <td>
+              <%%= @<%= resource_name %>.<%= column_name %> %>
+            </td>
+        <%-
+          end
+        -%>
         </p>
       <%- end -%>
       <div class="wat-cf">
