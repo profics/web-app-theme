@@ -10,28 +10,40 @@
     <div class="inner">
       <table class="table">
         <tr>
-          <th class="first">ID</th>
-          <% unless columns.empty? -%>
-          <th>
-            <%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= columns.first.name %>", :default => t("activerecord.labels.<%= columns.first.name %>", :default => "<%= columns.first.name.capitalize %>")) %>
-          </th>
-          <% end -%>
-          <th><%%= t("web-app-theme.created_at", :default => "Created at")  %></th>
+          <th class="first">Id</th>
+          <%- columns.each do |column| -%>
+            <th>
+              <%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => t("activerecord.labels.<%= column.name %>", :default => "<%= column.name.capitalize %>")).sub(/_id$/, '') %>
+            </th>
+          <%- end -%>
           <th class="last">&nbsp;</th>
         </tr>
         <%% @<%= plural_resource_name %>.each do |<%= resource_name %>| -%>
         <tr class="<%%= cycle("odd", "even") %>">
-          <td>
-            <%%= <%= resource_name %>.id %>
+          <td class="first">
+            <%%= link_to <%= resource_name %>.id, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
           </td>
-          <% unless columns.empty? -%>
-          <td>
-            <%%= link_to <%= resource_name %>.<%= columns.first.name %>, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
-          </td>
-          <% end -%>
-          <td>
-            <%%= <%= resource_name %>.created_at %>
-          </td>
+          <%-
+            current_model = model_name.constantize
+            columns.each do |column|
+              column_name = column.name.sub(/_id$/, '')
+              reflection = current_model.reflect_on_association(column_name.to_sym)
+              if reflection
+                reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
+          -%>
+                <td>
+                  <%%= link_to <%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(<%= resource_name %>.<%= column_name %>) %>
+                </td>
+          <%-
+              else
+          -%>
+                <td>
+                  <%%= <%= resource_name %>.<%= column_name %> %>
+                </td>
+          <%-
+              end
+          -%>
+          <%- end -%>
           <td class="last">
             <%%= link_to "#{t("web-app-theme.show", :default => "Show")}", <%= singular_controller_routing_path %>_path(<%= resource_name %>) %> |
             <%%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>) %> |
