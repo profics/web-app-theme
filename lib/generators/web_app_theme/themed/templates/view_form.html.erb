@@ -1,7 +1,22 @@
-<% columns.each do |column| %>
+<%
+  current_model = model_name.constantize
+  columns.each do |column|
+%>
   <div class="group">
-    <%%= f.label :<%= column.name %>, t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => "<%= column.name.humanize %>"), :class => :label %>
-    <%%= f.<%= column.field_type %> :<%= column.name %>, :class => '<%= column.field_type %>' %>
+    <%%= f.label :<%= column.name %>, t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => "<%= column.name.humanize %>").sub(/_id$/, ''), :class => :label %>
+    <%-
+      column_name = column.name.sub(/_id$/, '')
+      reflection = current_model.reflect_on_association(column_name.to_sym)
+      if reflection
+    -%>
+        <%%= f.select :<%= column.name %>, <%= reflection.klass.name %>.all.map{ |e| [e, e.id] }, :include_blank => true, :class => 'select' %>
+    <%-
+      else
+    -%>
+        <%%= f.<%= column.field_type %> :<%= column.name %>, :class => '<%= column.field_type %>' %>
+    <%-
+      end
+    -%>
     <span class="description">Ex: a simple text</span>
   </div>
 <%- end -%>

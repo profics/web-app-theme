@@ -18,7 +18,7 @@
           column_name = column.name.sub(/_id$/, '')
           reflection = current_model.reflect_on_association(column_name.to_sym)
           if reflection
-          reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
+            reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
         -%>
             <td>
               <%%= link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>) %>
