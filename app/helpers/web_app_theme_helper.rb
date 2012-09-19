@@ -1,7 +1,7 @@
 module WebAppThemeHelper
 
   def model_klass
-    controller.model_klass
+    controller.class.to_s.gsub(/Controller/, '').singularize.constantize
   end
   
   def t_attr(type_string = nil, symbol)
