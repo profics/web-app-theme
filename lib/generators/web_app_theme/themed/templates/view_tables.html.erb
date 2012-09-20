@@ -35,6 +35,18 @@
                   <%%= link_to <%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(<%= resource_name %>.<%= column_name %>) %>
                 </td>
           <%-
+              elsif column.type == :boolean
+          -%>
+                <td>
+                  <%%=
+                    if <%= resource_name %>.<%= column_name %> == true then
+                      content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'value_boolean value_boolean_true')
+                    else
+                      content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'value_boolean value_boolean_false')
+                    end
+                  -%>
+                </td>
+          <%-
               else
           -%>
                 <td>
@@ -45,9 +57,11 @@
           -%>
           <%- end -%>
           <td class="last">
-            <%%= link_to "#{t("web-app-theme.show", :default => "Show")}", <%= singular_controller_routing_path %>_path(<%= resource_name %>) %> |
-            <%%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>) %> |
-            <%%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", <%= singular_controller_routing_path %>_path(<%= resource_name %>), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+            <%%= link_to content_tag(:span, "#{t("web-app-theme.show", :default => "Show")}", :class => 'link link_show'), <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
+            <%%= content_tag(:span, " | ", :class => 'link_seperator') %>
+            <%%= link_to content_tag(:span, "#{t("web-app-theme.edit", :default => "Edit")}", :class => 'link link_edit'), edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
+            <%%= content_tag(:span, " | ", :class => 'link_seperator') %>
+            <%%= link_to content_tag(:span, "#{t("web-app-theme.delete", :default => "Delete")}", :class => 'link link_delete'), <%= singular_controller_routing_path %>_path(<%= resource_name %>), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
           </td>
         </tr>
         <%% end -%>
