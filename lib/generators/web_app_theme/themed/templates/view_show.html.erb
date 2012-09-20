@@ -1,19 +1,20 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first"><%%= link_to "#{t("web-app-theme.list", :default => "List")}", <%= controller_routing_path %>_path  %></li>
-      <li><%%= link_to "#{t("web-app-theme.new", :default => "New")}", new_<%= singular_controller_routing_path %>_path %></li>
-      <li class="active"><%%= link_to "#{t("web-app-theme.show", :default => "Show")}", <%= singular_controller_routing_path %>_path %></li>
+      <li class="first"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
+      <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
+      <li class="active"><%%= link_to t_wat(:show), <%= singular_controller_routing_path %>_path %></li>
     </ul>
   </div>
   <div class="content">
+    <h2 class="title"><%%= t_wat(:show) %> <%%= t_klass %></h2>
     <div class="inner">
       <%-
         current_model = model_name.constantize
         columns.each do |column|
       -%>
         <p>
-          <b><%%= t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => t("activerecord.labels.<%= column.name %>", :default => "<%= column.name.humanize %>")).sub(/_id$/, '') %>:</b>
+          <b><%%= t_attr(:<%= column.name %>) %>:</b>
         <%-
           column_name = column.name.sub(/_id$/, '')
           reflection = current_model.reflect_on_association(column_name.to_sym)
@@ -21,7 +22,13 @@
             reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
         -%>
             <td>
-              <%%= link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>) %>
+              <%%=
+                if @<%= resource_name %>.<%= column_name %> then
+                  link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>)
+                else
+                  @<%= resource_name %>.<%= column_name %>
+                end
+              %>
             </td>
         <%-
           else
@@ -35,8 +42,8 @@
         </p>
       <%- end -%>
       <div class="wat-cf">
-        <%%= link_to content_tag(:span, "#{t("web-app-theme.edit", :default=> "Edit")}", :class => 'button_image link_edit') + content_tag(:span, "#{t("web-app-theme.edit", :default=> "Edit")}", :class => 'button_text'), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button" %>
-        <%%= link_to content_tag(:span, "#{t("web-app-theme.delete", :default=> "Delete")}", :class => 'button_image link_delete') + content_tag(:span, "#{t("web-app-theme.delete", :default => "Delete")}", :class => 'button_text'), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+        <%%= link_to content_tag(:span, t_wat(:edit), :class => 'button_left link_edit') + content_tag(:span, t_wat(:edit), :class => 'button_right'), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button" %>
+        <%%= link_to content_tag(:span, t_wat(:delete), :class => 'button_left link_delete') + content_tag(:span, t_wat(:delete), :class => 'button_right'), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button", :confirm => t_wat(:confirm) %>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
   columns.each do |column|
 %>
   <div class="group">
-    <%%= f.label :<%= column.name %>, t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => "<%= column.name.humanize %>").sub(/_id$/, ''), :class => :label %>
+    <%%= f.label :<%= column.name %>, t_attr(:<%= column.name %>), :class => :label %>
     <%-
       column_name = column.name.sub(/_id$/, '')
       reflection = current_model.reflect_on_association(column_name.to_sym)
@@ -22,8 +22,8 @@
 <%- end -%>
 <div class="group navform wat-cf">
   <button class="button" type="submit">
-    <%%= content_tag(:span, "#{t("web-app-theme.save", :default=> "Save")}", :class => 'button_image link_save') + content_tag(:span, "#{t("web-app-theme.delete", :default=> "Delete")}", :class => 'button_text') %>
+    <%%= content_tag(:span, t_wat(:save), :class => 'button_left link_save') + content_tag(:span, t_wat(:save), :class => 'button_right') %>
   </button>
-  <span class="text_button_padding"><%%= t("web-app-theme.or", :default => "or") %></span>
-  <%%= link_to content_tag(:span, "#{t("web-app-theme.cancel", :default=> "Cancel")}", :class => 'button_image link_cancel') + content_tag(:span, "#{t("web-app-theme.cancel", :default=> "Cancel")}", :class => 'button_text'), <%= controller_routing_path %>_path, :class => "button" %>
+  <span class="text_button_padding"><%%= t_wat(:or) %></span>
+  <%%= link_to content_tag(:span, t_wat(:cancel), :class => 'button_left link_cancel') + content_tag(:span, t_wat(:cancel), :class => 'button_right'), <%= controller_routing_path %>_path, :class => "button" %>
 </div>
