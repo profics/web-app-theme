@@ -1,9 +1,20 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
-      <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
-      <li class="active"><%%= link_to t_wat(:show), <%= singular_controller_routing_path %>_path %></li>
+    <%%-
+      nav_parcel = navigation_parcel
+      if nav_parcel != nil
+    -%>
+    <%%= render(:partial => nav_parcel, :object => @<%= resource_name %>, :locals => {:action => :show}) %>
+    <%%-
+      else
+    -%>
+        <li class="first"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
+        <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
+        <li class="active"><%%= link_to t_wat(:show), <%= singular_controller_routing_path %>_path %></li>
+    <%%-
+      end
+    -%>
     </ul>
   </div>
   <div class="content">
@@ -42,8 +53,8 @@
         </p>
       <%- end -%>
       <div class="wat-cf">
-        <%%= link_to content_tag(:span, t_wat(:edit), :class => 'button_left link_edit') + content_tag(:span, t_wat(:edit), :class => 'button_right'), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button" %>
-        <%%= link_to content_tag(:span, t_wat(:delete), :class => 'button_left link_delete') + content_tag(:span, t_wat(:delete), :class => 'button_right'), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button", :confirm => t_wat(:confirm) %>
+        <%%= link_to content_tag(:span, t_wat(:edit), :class => 'button link_edit'), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button" %>
+        <%%= link_to content_tag(:span, t_wat(:delete), :class => 'button link_delete'), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button", :data => {:confirm => t_wat(:confirm)} %>
       </div>
     </div>
   </div>

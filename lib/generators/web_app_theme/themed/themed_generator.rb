@@ -77,7 +77,7 @@ module WebAppTheme
     # perform the (Mongoid) #fields method instead
     def columns
       begin
-        excluded_column_names = %w[id created_at updated_at replaced_at created_by updated_by replaced_by]
+        excluded_column_names = %w[id mandator_id created_at updated_at replaced_at created_by updated_by replaced_by]
         Kernel.qualified_const_get(@model_name).columns.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| Rails::Generators::GeneratedAttribute.new(c.name, c.type)} 
       rescue NoMethodError
         Kernel.qualified_const_get(@model_name).fields.collect{|c| c[1]}.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| Rails::Generators::GeneratedAttribute.new(c.name, c.type.to_s)}

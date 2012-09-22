@@ -1,9 +1,20 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
-      <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
-      <li class="active"><%%= link_to t_wat(:edit), edit_<%= singular_controller_routing_path %>_path %></li>
+    <%%-
+      nav_parcel = navigation_parcel
+      if nav_parcel != nil
+    -%>
+    <%%= render(:partial => nav_parcel, :object => @<%= resource_name %>, :locals => {:action => :edit}) %>
+    <%%-
+      else
+    -%>
+        <li class="first"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
+        <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
+        <li class="active"><%%= link_to t_wat(:edit), edit_<%= singular_controller_routing_path %>_path %></li>
+    <%%-
+      end
+    -%>
     </ul>
   </div>
   <div class="content">

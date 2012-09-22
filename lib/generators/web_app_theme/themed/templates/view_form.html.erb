@@ -22,8 +22,8 @@
 <%- end -%>
 <div class="group navform wat-cf">
   <button class="button" type="submit">
-    <%%= content_tag(:span, t_wat(:save), :class => 'button_left link_save') + content_tag(:span, t_wat(:save), :class => 'button_right') %>
+    <%%= content_tag(:span, t_wat(:save), :class => 'button link_save') %>
   </button>
   <span class="text_button_padding"><%%= t_wat(:or) %></span>
-  <%%= link_to content_tag(:span, t_wat(:cancel), :class => 'button_left link_cancel') + content_tag(:span, t_wat(:cancel), :class => 'button_right'), <%= controller_routing_path %>_path, :class => "button" %>
+  <%%= link_to content_tag(:span, t_wat(:cancel), :class => 'button link_cancel'), <%= controller_routing_path %>_path, :class => "button" %>
 </div>
