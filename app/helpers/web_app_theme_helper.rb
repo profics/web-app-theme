@@ -8,11 +8,47 @@ module WebAppThemeHelper
     model_type.constantize
   end
 
-  # Returns nil if parcel does not exist
-  def main_navigation_parcel
-    parcel_path = "shared/"
-    parcel_name = "main_navigation"
-    path_exists?("app/views/#{parcel_path}_#{parcel_name}.html.*") ? "#{parcel_path}#{parcel_name}" : nil
+  # Returns nil if partial does not exist
+  def main_navigation_partial
+    partial_path = "shared/"
+    partial_name = "main_navigation"
+    path_exists?("app/views/#{partial_path}_#{partial_name}.html.*") ? "#{partial_path}#{partial_name}" : nil
+  end
+
+  # Returns nil if partial does not exist
+  def navigation_partial
+    # Aufgrund Controller ermitteln...
+    controller.class.ancestors.grep(Class).each do |klass|
+      basepath = klass.to_s.gsub(/Controller/, '').underscore
+      nr_of_levels = basepath.scan(/\//).size + 1
+      partial_path = basepath
+      nr_of_levels.times do |i|
+        partial_name = "navigation"
+        return "#{partial_path}/#{partial_name}" if path_exists?("app/views/#{partial_path}/_#{partial_name}.html.*")
+        partial_name = "navigation_#{partial_path.gsub(/\//, "_")}"
+        return "shared/#{partial_name}" if path_exists?("app/views/shared/_#{partial_name}.html.*")
+        index = partial_path.rindex(/\//)
+        a = partial_path.split('/')
+        a.pop
+        partial_path = ""
+        not_first = false
+        a.each do |s|
+          if not_first
+            partial_path += "/"
+          end
+          partial_path += s
+        end
+      end
+    end
+    nil
+  end
+
+  def sidebar_partials
+    # TODO: Aufgrund Controller ermitteln...
+    partials = Array.new
+    partials << "sidebar"
+    partials << "sidebar2"
+    partials
   end
 
   def path_exists?(path_string)
@@ -20,34 +56,6 @@ module WebAppThemeHelper
       return true if File.exists?(path)
     end
     false
-  end
-
-  # Returns nil if parcel does not exist
-  def navigation_parcel
-    # Aufgrund Controller ermitteln...
-    controller.class.ancestors.grep(Class).each do |klass|
-      basepath = klass.to_s.gsub(/Controller/, '').underscore
-      nr_of_levels = basepath.scan(/\//).size + 1
-      parcel_path = basepath
-      nr_of_levels.times do |i|
-        parcel_name = "navigation"
-        return "#{parcel_path}/#{parcel_name}" if path_exists?("app/views/#{parcel_path}/_#{parcel_name}.html.*")
-        parcel_name = "navigation_#{parcel_path.gsub(/\//, "_")}"
-        return "shared/#{parcel_name}" if path_exists?("app/views/shared/_#{parcel_name}.html.*")
-        index = parcel_path.rindex(/\//)
-        a = parcel_path.split('/')
-        a.pop
-        parcel_path = ""
-        not_first = false
-        a.each do |s|
-          if not_first
-            parcel_path += "/"
-          end
-          parcel_path += s
-        end
-      end
-    end
-    nil
   end
 
   def t_attr(type = nil, string_or_symbol)

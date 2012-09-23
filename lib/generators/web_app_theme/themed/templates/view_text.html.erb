@@ -15,4 +15,6 @@
   </div>
 </div>
 
-<%% content_for :sidebar, render(:partial => 'sidebar') -%>
+<%%- sidebar_partials.each do |sidebar_partial| -%>
+  <%%- content_for :sidebar, render(:partial => sidebar_partial) -%>
+<%%- end -%>

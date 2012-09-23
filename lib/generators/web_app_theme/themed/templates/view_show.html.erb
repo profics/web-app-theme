@@ -2,10 +2,10 @@
   <div class="secondary-navigation">
     <ul class="wat-cf">
     <%%-
-      nav_parcel = navigation_parcel
-      if nav_parcel != nil
+      nav_partial = navigation_partial
+      if nav_partial != nil
     -%>
-    <%%= render(:partial => nav_parcel, :object => @<%= resource_name %>, :locals => {:action => :show}) %>
+    <%%= render(:partial => nav_partial, :object => @<%= resource_name %>, :locals => {:action => :show}) %>
     <%%-
       else
     -%>
@@ -60,4 +60,6 @@
   </div>
 </div>
 
-<%% content_for :sidebar, render(:partial => 'sidebar') -%>
+<%%- sidebar_partials.each do |sidebar_partial| -%>
+  <%%- content_for :sidebar, render(:partial => sidebar_partial) -%>
+<%%- end -%>
