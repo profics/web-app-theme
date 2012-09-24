@@ -44,11 +44,30 @@ module WebAppThemeHelper
   end
 
   def sidebar_partials
-    # TODO: Aufgrund Controller ermitteln...
     partials = Array.new
-    partials << "sidebar"
-    partials << "sidebar2"
-    partials
+    controller.class.ancestors.grep(Class).each do |klass|
+      basepath = klass.to_s.gsub(/Controller/, '').underscore
+      nr_of_levels = basepath.scan(/\//).size + 1
+      partial_path = basepath
+      nr_of_levels.times do |i|
+        partial_name = "sidebar"
+        partials << "#{partial_path}/#{partial_name}" if path_exists?("app/views/#{partial_path}/_#{partial_name}.html.*")
+        partial_name = "sidebar_#{partial_path.gsub(/\//, "_")}"
+        partials << "shared/#{partial_name}" if path_exists?("app/views/shared/_#{partial_name}.html.*")
+        index = partial_path.rindex(/\//)
+        a = partial_path.split('/')
+        a.pop
+        partial_path = ""
+        not_first = false
+        a.each do |s|
+          if not_first
+            partial_path += "/"
+          end
+          partial_path += s
+        end
+      end
+    end
+    partials.reverse
   end
 
   def path_exists?(path_string)
