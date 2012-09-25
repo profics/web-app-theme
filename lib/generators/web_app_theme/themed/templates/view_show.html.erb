@@ -32,29 +32,25 @@
           if reflection && !reflection.options[:polymorphic]
             reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
         -%>
-            <td>
-              <%%=
-                if @<%= resource_name %>.<%= column_name %> then
-                  link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>)
-                else
-                  @<%= resource_name %>.<%= column_name %>
-                end
-              %>
-            </td>
+            <%%=
+              if @<%= resource_name %>.<%= column_name %> then
+                link_to @<%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(@<%= resource_name %>.<%= column_name %>)
+              else
+                @<%= resource_name %>.<%= column_name %>
+              end
+            %>
         <%-
           else
         -%>
-            <td>
-              <%%= @<%= resource_name %>.<%= column_name %> %>
-            </td>
+            <%%= @<%= resource_name %>.<%= column_name %> %>
         <%-
           end
         -%>
         </p>
       <%- end -%>
       <div class="wat-cf">
-        <%%= link_to content_tag(:span, t_wat(:edit), :class => 'button link_edit'), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button" %>
-        <%%= link_to content_tag(:span, t_wat(:delete), :class => 'button link_delete'), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button", :data => {:confirm => t_wat(:confirm)} %>
+        <%%= link_to (content_tag(:span, t_wat(:edit), :class => 'left') + content_tag(:span, t_wat(:edit), :class => 'right')), edit_<%= singular_controller_routing_path %>_path(@<%= resource_name %>), :class => "button edit" %>
+        <%%= link_to (content_tag(:span, t_wat(:delete), :class => 'left') + content_tag(:span, t_wat(:delete), :class => 'right')), <%= singular_controller_routing_path %>_path(@<%= resource_name %>), :method => "delete", :class => "button delete", :data => {:confirm => t_wat(:confirm)} %>
       </div>
     </div>
   </div>

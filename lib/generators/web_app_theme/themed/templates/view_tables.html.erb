@@ -19,66 +19,64 @@
   <div class="content">
     <h2 class="title"><%%= t_wat(:all) %> <%%= t_klasses %></h2>
     <div class="inner">
-      <table class="table">
+      <table class="table <%= model_name.underscore.gsub(/\//, '_') %>">
         <tr>
-          <th class="first">Id</th>
+          <th class="first id">Id</th>
           <%- columns.each do |column| -%>
-            <th>
+            <th class="<%= column.name %>">
               <%%= t_attr(:<%= column.name %>) %>
             </th>
           <%- end -%>
-          <th class="last">&nbsp;</th>
+          <th class="last actions">&nbsp;</th>
         </tr>
         <%% @<%= plural_resource_name %>.each do |<%= resource_name %>| -%>
         <tr class="<%%= cycle("odd", "even") %>">
-          <td class="first">
+          <td class="first id">
             <%%= link_to <%= resource_name %>.id, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
           </td>
           <%-
             current_model = model_name.constantize
             columns.each do |column|
               column_name = column.name.sub(/_id$/, '')
-              reflection = current_model.reflect_on_association(column_name.to_sym)
-              if reflection && !reflection.options[:polymorphic]
-                reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
           -%>
-                <td>
+              <td class="<%= column.name %>">
+          <%-
+                reflection = current_model.reflect_on_association(column_name.to_sym)
+                if reflection && !reflection.options[:polymorphic]
+                  reference_class_name = reflection.klass.name.underscore.gsub(/\//, '_')
+          -%>
                   <%%=
                     if <%= resource_name %>.<%= column_name %> then
                       link_to <%= resource_name %>.<%= column_name %>, <%= reference_class_name %>_path(<%= resource_name %>.<%= column_name %>)
-                    else
-                      <%= resource_name %>.<%= column_name %>
                     end
                   %>
-                </td>
           <%-
-              elsif column.type == :boolean
+                elsif column.type == :boolean
           -%>
-                <td>
+                  <span class="boolean">
                   <%%=
                     if <%= resource_name %>.<%= column_name %> == true then
-                      content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'value_boolean value_boolean_true')
+                      content_tag(:span, content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'left') + content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'right'), :class => 'true')
                     else
-                      content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'value_boolean value_boolean_false')
+                      content_tag(:span, content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'left') + content_tag(:span, <%= resource_name %>.<%= column_name %>, :class => 'right'), :class => 'false')
                     end
                   -%>
-                </td>
+                  </span>
           <%-
-              else
+                else
           -%>
-                <td>
                   <%%= <%= resource_name %>.<%= column_name %> %>
-                </td>
           <%-
-              end
+                end
           -%>
+              </td>
           <%- end -%>
-          <td class="last">
-            <%%= link_to content_tag(:span, t_wat(:show), :class => 'link link_show'), <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
-            <%%= content_tag(:span, " | ", :class => 'link_seperator') %>
-            <%%= link_to content_tag(:span, t_wat(:edit), :class => 'link link_edit'), edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
-            <%%= content_tag(:span, " | ", :class => 'link_seperator') %>
-            <%%= link_to content_tag(:span, t_wat(:delete), :class => 'link link_delete'), <%= singular_controller_routing_path %>_path(<%= resource_name %>), :method => :delete, :data => {:confirm => t_wat(:confirm)} %>
+          <td class="last actions">
+            <%%= link_to (content_tag(:span, t_wat(:show), :class => 'left') + content_tag(:span, t_wat(:show), :class => 'right')), <%= singular_controller_routing_path %>_path(<%= resource_name %>), :class => 'show' %>
+            <%%= content_tag(:span, " | ", :class => 'seperator') %>
+            <%%= link_to (content_tag(:span, t_wat(:edit), :class => 'left') + content_tag(:span, t_wat(:edit), :class => 'right')), edit_<%= singular_controller_routing_path %>_path(<%= resource_name %>), :class => 'edit' %>
+            <%%= content_tag(:span, " | ", :class => 'seperator') %>
+            <%%= link_to (content_tag(:span, t_wat(:delete), :class => 'left') + content_tag(:span, t_wat(:delete), :class => 'right')), <%= singular_controller_routing_path %>_path(<%= resource_name %>), :class => 'delete', :method => :delete, :data => {:confirm => t_wat(:confirm)} %>
           </td>
         </tr>
         <%% end -%>
