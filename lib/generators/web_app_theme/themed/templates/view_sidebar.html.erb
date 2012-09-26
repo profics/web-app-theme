@@ -1,13 +1,14 @@
-<div class="block notice">
-  <h3>Simple Block</h3>
+<div class="block notice <%= model_name.underscore.gsub(/\//, '_') %>">
+  <h3><%%= t_klass %></h3>
   <div class="content">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <%%-
+      klass_descr = t_klass_desc
+      if klass_descr != nil && klass_descr.length > 0
+    -%>
+      <p><%%= klass_descr %></p>
+    <%%-
+      end
+    -%>
+    <p><%%= model_klass.column_names.reject{|n| n =~ /^(created_|updated_|replaced)/}.collect{|n| t_attr(n) }.join(", ") %></p>
   </div>
-</div>
-<div class="block">
-  <h3>Links</h3>
-  <ul class="navigation">
-    <li><a href="#">Link 1</a></li>
-    <li><a href="#">Link 2</a></li>
-  </ul>
 </div>

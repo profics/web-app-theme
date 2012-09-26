@@ -24,7 +24,7 @@
         current_model = model_name.constantize
         columns.each do |column|
       -%>
-        <p>
+        <p class="<%= column.name %>">
           <b><%%= t_attr(:<%= column.name %>) %>:</b>
         <%-
           column_name = column.name.sub(/_id$/, '')

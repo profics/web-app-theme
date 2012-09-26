@@ -33,6 +33,7 @@
         <tr class="<%%= cycle("odd", "even") %>">
           <td class="first id">
             <%%= link_to <%= resource_name %>.id, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
+            <%%= content_tag(:span, <%= resource_name %>.id) %>
           </td>
           <%-
             current_model = model_name.constantize

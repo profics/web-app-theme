@@ -2,7 +2,7 @@
   current_model = model_name.constantize
   columns.each do |column|
 %>
-  <div class="group">
+  <div class="group <%= column.name %>">
     <%%= f.label :<%= column.name %>, t_attr(:<%= column.name %>), :class => :label %>
     <%-
       column_name = column.name.sub(/_id$/, '')
@@ -17,7 +17,14 @@
     <%-
       end
     -%>
-    <span class="description">Ex: a simple text</span>
+    <%%-
+      column_desc = t_attr_desc(:<%= column.name %>)
+      if column_desc
+    -%>
+    <%%= content_tag(:span, column_desc, :class => 'description') %>
+    <%%-
+      end
+    -%>
   </div>
 <%- end -%>
 <div class="group navform wat-cf">
