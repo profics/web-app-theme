@@ -3,7 +3,7 @@
   <div class="content">
     <%%-
       klass_descr = t_klass_desc
-      if klass_descr != nil && klass_descr.length > 0
+      if !klass_descr.blank?
     -%>
       <p><%%= klass_descr %></p>
     <%%-
