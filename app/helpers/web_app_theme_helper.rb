@@ -77,7 +77,7 @@ module WebAppThemeHelper
     false
   end
 
-  def t_attr_desc(type = nil, string_or_symbol)
+  def t_attr_desc(string_or_symbol, type = nil)
     type_string = type.nil? ? model_type : type.to_s
     t(type_string.underscore.gsub(/^/, 'activerecord.descriptions.').gsub(/$/, ".#{string_or_symbol}"), :default => "")
   end
@@ -87,7 +87,7 @@ module WebAppThemeHelper
     t(type_string.underscore.gsub(/^/, 'activerecord.descriptions.').gsub(/$/, ".model"), :default => "")
   end
 
-  def t_attr(type = nil, string_or_symbol)
+  def t_attr(string_or_symbol, type = nil)
     type_string = type.nil? ? model_type : type.to_s
     t(type_string.underscore.gsub(/^/, 'activerecord.attributes.').gsub(/$/, ".#{string_or_symbol}"), :default => t("activerecord.labels.#{string_or_symbol}", :default => string_or_symbol.to_s.humanize))
   end

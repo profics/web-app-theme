@@ -21,7 +21,7 @@
     <div class="inner">
       <table class="table <%= model_name.underscore.gsub(/\//, '_') %>">
         <tr>
-          <th class="first id"><%%= t_attr(id) %></th>
+          <th class="first id"><%%= t_attr(:id) %></th>
           <%- columns.each do |column| -%>
             <th class="<%= column.name %>">
               <%%= t_attr(:<%= column.name %>) %>
