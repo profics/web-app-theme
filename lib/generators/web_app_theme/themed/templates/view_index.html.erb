@@ -1,0 +1,51 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+    <%%-
+      nav_partial = navigation_partial
+      if nav_partial != nil
+    -%>
+    <%%= render(:partial => nav_partial, :object => nil, :locals => {:action => :index}) %>
+    <%%-
+      else
+    -%>
+        <li class="first active"><%%= link_to t_wat(:list), <%= controller_routing_path %>_path  %></li>
+        <li><%%= link_to t_wat(:new), new_<%= singular_controller_routing_path %>_path %></li>
+    <%%-
+      end
+    -%>
+  </ul>
+  </div>
+  <div class="content">
+    <h2 class="title"><%%= t_wat(:all) %> <%%= t_klasses %></h2>
+    <div class="inner">
+      <table class="table <%= model_name.underscore.gsub(/\//, '_') %>">
+        <thead>
+          <tr>
+            <th class="first id"><%%= t_attr(:id) %></th>
+            <%- columns.each do |column| -%>
+              <th class="<%= column.name %>">
+                <%%= t_attr(:<%= column.name %>) %>
+              </th>
+            <%- end -%>
+            <th class="last actions">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody id="object-list">
+          <%%= render(:partial => "table", :collection => @<%= plural_resource_name %>, :as => :<%= resource_name %>) %>
+        </tbody>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+        <% if options.paginate %>
+        <%%= paginate @<%= plural_resource_name %>  %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%%- sidebar_partials.each do |sidebar_partial| -%>
+  <%%- content_for :sidebar, render(:partial => sidebar_partial) -%>
+<%%- end -%>
