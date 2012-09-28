@@ -39,7 +39,9 @@
         <div class="actions">
         </div>
         <% if options.paginate %>
-        <%%= paginate @<%= plural_resource_name %>  %>
+        <div id="pagination">
+          <%%= paginate @<%= plural_resource_name %> %>
+        </div>
         <% end %>
       </div>
     </div>
