@@ -19,6 +19,14 @@
   <div class="content">
     <h2 class="title"><%%= t_wat(:all) %> <%%= t_klasses %></h2>
     <div class="inner">
+      <%%-
+        fil_partial = filter_partial
+        if fil_partial != nil
+      -%>
+      <%%= render(:partial => fil_partial, :object => nil, :locals => {:action => :index}) %>
+      <%%-
+        end
+      -%>
       <table class="table <%= model_name.underscore.gsub(/\//, '_') %>">
         <thead>
           <tr>

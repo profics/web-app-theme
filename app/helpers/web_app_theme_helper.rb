@@ -43,6 +43,34 @@ module WebAppThemeHelper
     nil
   end
 
+  # Returns nil if partial does not exist
+  def filter_partial
+    # Aufgrund Controller ermitteln...
+    controller.class.ancestors.grep(Class).each do |klass|
+      basepath = klass.to_s.gsub(/Controller/, '').underscore
+      nr_of_levels = basepath.scan(/\//).size + 1
+      partial_path = basepath
+      nr_of_levels.times do |i|
+        partial_name = "filter"
+        return "#{partial_path}/#{partial_name}" if path_exists?("app/views/#{partial_path}/_#{partial_name}.html.*")
+        partial_name = "navigation_#{partial_path.gsub(/\//, "_")}"
+        return "shared/#{partial_name}" if path_exists?("app/views/shared/_#{partial_name}.html.*")
+        index = partial_path.rindex(/\//)
+        a = partial_path.split('/')
+        a.pop
+        partial_path = ""
+        not_first = false
+        a.each do |s|
+          if not_first
+            partial_path += "/"
+          end
+          partial_path += s
+        end
+      end
+    end
+    nil
+  end
+
   def sidebar_partials
     partials = Array.new
     controller.class.ancestors.grep(Class).each do |klass|
